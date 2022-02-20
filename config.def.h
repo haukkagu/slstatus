@@ -64,6 +64,15 @@ static const char unknown_str[] = "n/a";
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  */
 static const struct arg args[] = {
-	/* function format          argument */
-	{ datetime, "%s",           "%F %T" },
+	/* function      format          argument */
+	{ separator,     "[ ",           NULL },
+	{ cpu_perc,      "🧠 %s%%",      NULL },
+	{ ram_used,      " | %s",        NULL },
+	{ separator,     " ] [ ",        NULL },
+	{ wifi_essid,    "🌐 %s",        "wlan0" },
+	{ separator,     " ] [ ",        NULL },
+	{ run_command,   "🔊 %s%%",      "pulsemixer --get-volume | cut -d' ' -f1" },
+	{ separator,     " ] [ ",        NULL },
+	{ datetime,      "📅 %s",        "%d/%m/%y %T" },
+	{ separator,     " ]",           NULL },
 };
