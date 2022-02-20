@@ -76,3 +76,6 @@ static const struct arg args[] = {
 	{ datetime,      "📅 %s",        "%d/%m/%y %T" },
 	{ separator,     " ]",           NULL },
 };
+
+/* The SIGUPDATE value is set relative to the RTMIN signal */
+#define SIGUPDATE 10

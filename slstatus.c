@@ -23,6 +23,11 @@ static Display *dpy;
 
 #include "config.h"
 
+static int sflag;
+char status[MAXLEN];
+const char *res;
+
+
 static void
 terminate(const int signo)
 {
@@ -44,15 +49,49 @@ usage(void)
 	die("usage: %s [-s] [-1]", argv0);
 }
 
+static void
+update_status(void)
+{
+	size_t i, len;
+	int ret;
+
+	status[0] = '\0';
+	for (i = len = 0; i < LEN(args); i++) {
+		if (!(res = args[i].func(args[i].args))) {
+			res = unknown_str;
+		}
+		if ((ret = esnprintf(status + len, sizeof(status) - len,
+				    args[i].fmt, res)) < 0) {
+			break;
+		}
+		len += ret;
+	}
+
+	if (sflag) {
+		puts(status);
+		fflush(stdout);
+		if (ferror(stdout))
+			die("puts:");
+	} else {
+		if (XStoreName(dpy, DefaultRootWindow(dpy), status)
+		    < 0) {
+			die("XStoreName: Allocation failed");
+		}
+		XFlush(dpy);
+	}
+}
+
+void
+handle_update(int sig)
+{
+	update_status();
+}
+
 int
 main(int argc, char *argv[])
 {
 	struct sigaction act;
 	struct timespec start, current, diff, intspec, wait;
-	size_t i, len;
-	int sflag, ret;
-	char status[MAXLEN];
-	const char *res;
 
 	sflag = 0;
 	ARGBEGIN {
@@ -81,35 +120,14 @@ main(int argc, char *argv[])
 		die("XOpenDisplay: Failed to open display");
 	}
 
+	signal(SIGRTMIN+(SIGUPDATE), handle_update);
+
 	do {
 		if (clock_gettime(CLOCK_MONOTONIC, &start) < 0) {
 			die("clock_gettime:");
 		}
 
-		status[0] = '\0';
-		for (i = len = 0; i < LEN(args); i++) {
-			if (!(res = args[i].func(args[i].args))) {
-				res = unknown_str;
-			}
-			if ((ret = esnprintf(status + len, sizeof(status) - len,
-			                    args[i].fmt, res)) < 0) {
-				break;
-			}
-			len += ret;
-		}
-
-		if (sflag) {
-			puts(status);
-			fflush(stdout);
-			if (ferror(stdout))
-				die("puts:");
-		} else {
-			if (XStoreName(dpy, DefaultRootWindow(dpy), status)
-                            < 0) {
-				die("XStoreName: Allocation failed");
-			}
-			XFlush(dpy);
-		}
+		update_status();
 
 		if (!done) {
 			if (clock_gettime(CLOCK_MONOTONIC, &current) < 0) {
