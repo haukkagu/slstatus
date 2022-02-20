@@ -1,0 +1,17 @@
+#!/bin/sh
+
+vol_perc=$(pamixer --get-volume)
+vol_mute=$(pamixer --get-mute)
+
+if [[ $vol_mute == 'true' ]]
+then
+	echo '🔇'
+elif [[ $vol_perc -lt 10 ]]
+then
+	echo '🔈'
+elif [[ $vol_perc -lt 25 ]]
+then
+	echo '🔉'
+else
+	echo '🔊'
+fi

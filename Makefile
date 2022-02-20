@@ -58,11 +58,17 @@ dist:
 install: all
 	mkdir -p "$(DESTDIR)$(PREFIX)/bin"
 	cp -f slstatus "$(DESTDIR)$(PREFIX)/bin"
+	cp -f batemoji "$(DESTDIR)$(PREFIX)/bin"
+	cp -f volemoji "$(DESTDIR)$(PREFIX)/bin"
 	chmod 755 "$(DESTDIR)$(PREFIX)/bin/slstatus"
+	chmod 755 "$(DESTDIR)$(PREFIX)/bin/batemoji"
+	chmod 755 "$(DESTDIR)$(PREFIX)/bin/volemoji"
 	mkdir -p "$(DESTDIR)$(MANPREFIX)/man1"
 	cp -f slstatus.1 "$(DESTDIR)$(MANPREFIX)/man1"
 	chmod 644 "$(DESTDIR)$(MANPREFIX)/man1/slstatus.1"
 
 uninstall:
 	rm -f "$(DESTDIR)$(PREFIX)/bin/slstatus"
+	rm -f "$(DESTDIR)$(PREFIX)/bin/batemoji"
+	rm -f "$(DESTDIR)$(PREFIX)/bin/volemoji"
 	rm -f "$(DESTDIR)$(MANPREFIX)/man1/slstatus.1"
