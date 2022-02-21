@@ -4,7 +4,7 @@ bat_status=$(cat /sys/class/power_supply/BAT1/status)
 
 if [ $bat_status == 'Charging' ] || [ $bat_status == 'Full' ]
 then
-	echo ''
+	echo '🔌'
 else
-	echo ''
+	echo '⚡'
 fi

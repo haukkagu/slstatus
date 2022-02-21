@@ -66,20 +66,20 @@ static const char unknown_str[] = "n/a";
 
 static const struct arg args[] = {
 	/* function      format          argument */
-	{ separator,     " ",        NULL },
-	{ cpu_perc,      " %s%% ",     NULL },
-	{ ram_used,      "%s",         NULL },
-	{ separator,     " | ",        NULL },
-	{ wifi_essid,    " %s",        "wlan0" },
-	{ separator,     " | ",        NULL },
+	{ separator,     "[ ",           NULL },
+	{ cpu_perc,      "🧠 %s%% ",     NULL },
+	{ ram_used,      "| %s",         NULL },
+	{ separator,     " ] [ ",        NULL },
+	{ wifi_essid,    "🌐 %s",        "wlan0" },
+	{ separator,     " ] [ ",        NULL },
 	{ run_command,   "%s ",          "volemoji" },
 	{ run_command,   "%s%%",         "pamixer --get-volume" },
-	{ separator,     " | ",        NULL },
-	{ datetime,      " %s",        "%d/%m/%y %T" },
-	{ separator,     " | ",        NULL },
+	{ separator,     " ] [ ",        NULL },
+	{ datetime,      "📅 %s",        "%d/%m/%y %T" },
+	{ separator,     " ] [ ",        NULL },
 	{ run_command,   "%s ",          "batemoji" },
 	{ battery_perc,  "%s%%",         "BAT1" },
-	{ separator,     " ",        NULL },
+	{ separator,     " ]",           NULL },
 };
 
 /* The SIGUPDATE value is set relative to the RTMIN signal */

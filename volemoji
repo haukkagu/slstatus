@@ -5,13 +5,13 @@ vol_mute=$(pamixer --get-mute)
 
 if [[ $vol_mute == 'true' ]]
 then
-	echo '婢'
+	echo '🔇'
 elif [[ $vol_perc -lt 10 ]]
 then
-	echo '奄'
+	echo '🔈'
 elif [[ $vol_perc -lt 25 ]]
 then
-	echo '奔'
+	echo '🔉'
 else
-	echo '墳'
+	echo '🔊'
 fi
